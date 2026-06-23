@@ -1,9 +1,10 @@
 import logo from "../assets/images/chef-logo.png";
 import Input from "../components/UI/Inputs";
 import Button from "../components/UI/Buttons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-[#FAF8F4] px-6 py-8">
       <div className="max-w-sm mx-auto">
@@ -40,6 +41,7 @@ export default function Login() {
             type="password"
             placeholder="Password"
           />
+
         </div>
         </form>
 
@@ -60,7 +62,7 @@ export default function Login() {
 
         {/* Login Button */}
         <div className="mt-5">
-          <Button>
+          <Button onClick={() => navigate("/collections")}>
             Log In
           </Button>
         </div>
