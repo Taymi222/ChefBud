@@ -5,9 +5,12 @@ import {
 } from "lucide-react";
 
 import CollectionCard from "../components/collections/CollectionCard";
-import { collections } from "../Data/mockCollections";
+import { useCollections } from "../context/CollectionContext";
 
 export default function Collections() {
+
+  const { collections } = useCollections();
+
   return (
     <div className="min-h-screen bg-[#FAF8F4]">
 
@@ -21,6 +24,7 @@ export default function Collections() {
 
         {/* Greeting */}
         <div className="mt-5">
+
           <p className="text-sm text-gray-500">
             Hello, Temi 👋
           </p>
@@ -32,21 +36,23 @@ export default function Collections() {
           <p className="text-sm text-gray-500 mt-1">
             Organize your ingredients by meals.
           </p>
+
         </div>
 
-        {/* Collection Cards */}
+        {/* Collections */}
         <div className="mt-6 space-y-3">
+
           {collections.map((collection) => (
             <CollectionCard
               key={collection.id}
               {...collection}
             />
           ))}
+
         </div>
 
       </div>
 
-      {/* Floating Add Button */}
       <button
         className="
           fixed

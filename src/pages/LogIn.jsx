@@ -33,8 +33,8 @@ export default function Login() {
         <form>
         <div className="space-y-4">
           <Input
-            type="email"
-            placeholder="e.g example@gmail.com"
+            type="username"
+            placeholder="your username"
           />
 
           <Input
