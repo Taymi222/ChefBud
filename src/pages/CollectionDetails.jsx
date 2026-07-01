@@ -13,7 +13,7 @@ export default function CollectionDetails() {
 
  const collection = getCollection(collectionId);
 
-console.log("Collection:", collection);
+
 
   if (!collection) {
     return (

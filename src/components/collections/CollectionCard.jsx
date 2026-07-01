@@ -1,4 +1,4 @@
-import { MoreVertical } from "lucide-react";
+import ActionMenu from "../UI/ActionMenu";
 import { Link } from "react-router-dom";
 
 export default function CollectionCard({
@@ -7,20 +7,22 @@ export default function CollectionCard({
   icon,
   files,
   updatedAt,
+  onRename,
+  onDelete,
 }) {
   const formattedDate = updatedAt
-  ? new Date(updatedAt).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    })
-  : "Never";
+    ? new Date(updatedAt).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      })
+    : "Never";
 
   return (
     <Link
       to={`/collections/${id}`}
       className="block"
     >
-      <div className="bg-white border border-[#E8E4DC] rounded-2xl p-4 flex items-center justify-between">
+      <div className="relative bg-white border border-[#E8E4DC] rounded-2xl p-4 flex items-center justify-between overflow-visible">
 
         <div className="flex items-center gap-4">
 
@@ -41,15 +43,24 @@ export default function CollectionCard({
 
             <p className="text-xs text-gray-500">
               Updated: {formattedDate}
-          </p>
+            </p>
 
           </div>
 
         </div>
 
-        <MoreVertical
-          size={18}
-          className="text-gray-400"
+        <ActionMenu
+          actions={[
+            {
+              label: "Rename Collection",
+              onClick: onRename,
+            },
+            {
+              label: "Delete Collection",
+              danger: true,
+              onClick: onDelete,
+            },
+          ]}
         />
 
       </div>

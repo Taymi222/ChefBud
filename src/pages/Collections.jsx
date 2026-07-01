@@ -1,15 +1,13 @@
-import {
-  Bell,
-  Menu,
-  Plus,
-} from "lucide-react";
-
+import { useState } from "react";
+import { Bell, Menu, Plus, } from "lucide-react";
 import CollectionCard from "../components/collections/CollectionCard";
+import CollectionModal from "../components/collections/CollectionModal";
 import { useCollections } from "../context/CollectionContext";
 
 export default function Collections() {
-
-  const { collections } = useCollections();
+  const {collections,createCollection,renameCollection,} = useCollections();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingCollection, setEditingCollection] = useState(null);
 
   return (
     <div className="min-h-screen bg-[#FAF8F4]">
@@ -46,31 +44,66 @@ export default function Collections() {
             <CollectionCard
               key={collection.id}
               {...collection}
+              onDelete={() => deleteCollection(collection.id)}
+              onRename={() => {
+                setEditingCollection(collection);
+                setIsModalOpen(true);
+              }}
             />
           ))}
 
         </div>
 
       </div>
-
       <button
-        className="
-          fixed
-          bottom-24
-          right-6
-          w-14
-          h-14
-          rounded-full
-          bg-[#D89B29]
-          text-white
-          flex
-          items-center
-          justify-center
-          shadow-lg
-        "
+      onClick={() => setIsModalOpen(true)}
+      className="
+        fixed
+        bottom-24
+        right-6
+        w-14
+        h-14
+        rounded-full
+        bg-[#D89B29]
+        text-white
+        flex
+        items-center
+        justify-center
+        shadow-lg
+      "
       >
-        <Plus size={24} />
+      <Plus size={24} />
       </button>
+      <CollectionModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setEditingCollection(null);
+        }}
+        title={
+          editingCollection
+            ? "Rename Collection"
+            : "New Collection"
+        }
+        buttonText={
+          editingCollection
+            ? "Save"
+            : "Create"
+        }
+        initialValue={
+          editingCollection?.name || ""
+        }
+        onSubmit={(name) => {
+          if (editingCollection) {
+            renameCollection(editingCollection.id, name);
+          } else {
+            createCollection(name);
+          }
+
+          setEditingCollection(null);
+          setIsModalOpen(false);
+        }}
+        />
 
     </div>
   );
