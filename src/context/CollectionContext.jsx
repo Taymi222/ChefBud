@@ -14,38 +14,38 @@ const DEFAULT_COLLECTIONS = [
     id: "breakfast",
     name: "Breakfast",
     icon: "🍳",
-    ingredients: [],
-    updated: null,
+    files: [],
+    updatedAt: null,
   },
   {
     id: "lunch",
     name: "Lunch",
     icon: "☀️",
-    ingredients: [],
-    updated: null,
+    files: [],
+    updatedAt: null,
   },
   {
     id: "dinner",
     name: "Dinner",
     icon: "🌙",
-    ingredients: [],
-    updated: null,
+    files: [],
+    updatedAt: null,
   },
   {
     id: "snacks",
     name: "Snacks",
     icon: "🍪",
-    ingredients: [],
-    updated: null,
+    files: [],
+    updatedAt: null,
   },
 ];
 
 export function CollectionProvider({ children }) {
   const [collections, setCollections] = useState(() => {
-    const savedCollections = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(STORAGE_KEY);
 
-    return savedCollections
-      ? JSON.parse(savedCollections)
+    return saved
+      ? JSON.parse(saved)
       : DEFAULT_COLLECTIONS;
   });
 
@@ -56,59 +56,9 @@ export function CollectionProvider({ children }) {
     );
   }, [collections]);
 
-  const addIngredient = (collectionId, ingredientName) => {
-    const trimmedIngredient = ingredientName.trim();
-
-    if (!trimmedIngredient) return;
-
-    setCollections((prevCollections) =>
-      prevCollections.map((collection) => {
-        if (collection.id !== collectionId) {
-          return collection;
-        }
-
-        const ingredientExists = collection.ingredients.some(
-          (ingredient) =>
-            ingredient.toLowerCase() ===
-            trimmedIngredient.toLowerCase()
-        );
-
-        if (ingredientExists) {
-          return collection;
-        }
-
-        return {
-          ...collection,
-          ingredients: [
-            ...collection.ingredients,
-            trimmedIngredient,
-          ],
-          updated: new Date().toISOString(),
-        };
-      })
-    );
-  };
-
-  const deleteIngredient = (
-    collectionId,
-    ingredientIndex
-  ) => {
-    setCollections((prevCollections) =>
-      prevCollections.map((collection) => {
-        if (collection.id !== collectionId) {
-          return collection;
-        }
-
-        return {
-          ...collection,
-          ingredients: collection.ingredients.filter(
-            (_, index) => index !== ingredientIndex
-          ),
-          updated: new Date().toISOString(),
-        };
-      })
-    );
-  };
+  // ==========================
+  // COLLECTIONS
+  // ==========================
 
   const getCollection = (collectionId) => {
     return collections.find(
@@ -116,13 +66,247 @@ export function CollectionProvider({ children }) {
     );
   };
 
+  const createCollection = (name) => {
+    const trimmedName = name.trim();
+
+    if (!trimmedName) return;
+
+    const newCollection = {
+      id: crypto.randomUUID(),
+      name: trimmedName,
+      icon: "📁",
+      files: [],
+      updatedAt: new Date().toISOString(),
+    };
+
+    setCollections((prev) => [
+      ...prev,
+      newCollection,
+    ]);
+  };
+
+  const deleteCollection = (collectionId) => {
+    setCollections((prev) =>
+      prev.filter(
+        (collection) =>
+          collection.id !== collectionId
+      )
+    );
+  };
+
+  const renameCollection = (
+    collectionId,
+    newName
+  ) => {
+    setCollections((prev) =>
+      prev.map((collection) => {
+        if (collection.id !== collectionId)
+          return collection;
+
+        return {
+          ...collection,
+          name: newName,
+          updatedAt: new Date().toISOString(),
+        };
+      })
+    );
+  };
+
+  // ==========================
+  // RECIPE FILES
+  // ==========================
+
+  const createRecipeFile = (
+    collectionId,
+    title
+  ) => {
+    const trimmedTitle = title.trim();
+
+    if (!trimmedTitle) return;
+
+    setCollections((prev) =>
+      prev.map((collection) => {
+        if (collection.id !== collectionId)
+          return collection;
+
+        const newFile = {
+          id: crypto.randomUUID(),
+
+          title: trimmedTitle,
+
+          ingredients: [],
+
+          notes: "",
+
+          recipe: {
+            title: "",
+            description: "",
+            instructions: [],
+            cookingTime: "",
+            difficulty: "",
+            servings: "",
+          },
+
+          saved: false,
+
+          updatedAt: new Date().toISOString(),
+        };
+
+        return {
+          ...collection,
+          files: [
+            ...collection.files,
+            newFile,
+          ],
+          updatedAt: new Date().toISOString(),
+        };
+      })
+    );
+  };
+
+  const deleteRecipeFile = (
+    collectionId,
+    fileId
+  ) => {
+    setCollections((prev) =>
+      prev.map((collection) => {
+        if (collection.id !== collectionId)
+          return collection;
+
+        return {
+          ...collection,
+          files: collection.files.filter(
+            (file) => file.id !== fileId
+          ),
+          updatedAt: new Date().toISOString(),
+        };
+      })
+    );
+  };
+
+  const renameRecipeFile = (
+    collectionId,
+    fileId,
+    newTitle
+  ) => {
+    setCollections((prev) =>
+      prev.map((collection) => {
+        if (collection.id !== collectionId)
+          return collection;
+
+        return {
+          ...collection,
+          files: collection.files.map((file) => {
+            if (file.id !== fileId)
+              return file;
+
+            return {
+              ...file,
+              title: newTitle,
+              updatedAt:
+                new Date().toISOString(),
+            };
+          }),
+        };
+      })
+    );
+  };
+
+  const getRecipeFile = (
+    collectionId,
+    fileId
+  ) => {
+    const collection = getCollection(
+      collectionId
+    );
+
+    if (!collection) return null;
+
+    return collection.files.find(
+      (file) => file.id === fileId
+    );
+  };
+
+  const addIngredient = (collectionId, fileId, ingredient) => {
+    const trimmed = ingredient.trim();
+    if (!trimmed) return;
+
+    setCollections((prev) =>
+      prev.map((collection) => {
+        if (collection.id !== collectionId) return collection;
+
+        return {
+          ...collection,
+          files: collection.files.map((file) => {
+            if (file.id !== fileId) return file;
+            return {
+              ...file,
+              ingredients: [...file.ingredients, trimmed],
+              updatedAt: new Date().toISOString(),
+            };
+          }),
+        };
+      })
+    );
+  };
+
+  const deleteIngredient = (collectionId, fileId, index) => {
+    setCollections((prev) =>
+      prev.map((collection) => {
+        if (collection.id !== collectionId) return collection;
+
+        return {
+          ...collection,
+          files: collection.files.map((file) => {
+            if (file.id !== fileId) return file;
+            return {
+              ...file,
+              ingredients: file.ingredients.filter((_, i) => i !== index),
+              updatedAt: new Date().toISOString(),
+            };
+          }),
+        };
+      })
+    );
+  };
+
+  const updateRecipeNotes = (collectionId, fileId, notes) => {
+    setCollections((prev) =>
+      prev.map((collection) => {
+        if (collection.id !== collectionId) return collection;
+
+        return {
+          ...collection,
+          files: collection.files.map((file) => {
+            if (file.id !== fileId) return file;
+            return {
+              ...file,
+              notes,
+              updatedAt: new Date().toISOString(),
+            };
+          }),
+        };
+      })
+    );
+  };
+
   return (
     <CollectionContext.Provider
       value={{
         collections,
+
         getCollection,
+        createCollection,
+        renameCollection,
+        deleteCollection,
+
+        createRecipeFile,
+        deleteRecipeFile,
+        renameRecipeFile,
+        getRecipeFile,
         addIngredient,
         deleteIngredient,
+        updateRecipeNotes,
       }}
     >
       {children}

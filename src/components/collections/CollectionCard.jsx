@@ -5,19 +5,19 @@ export default function CollectionCard({
   id,
   name,
   icon,
-  ingredients,
-  updated,
+  files,
+  updatedAt,
 }) {
-  const formattedDate = updated
-    ? new Date(updated).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      })
-    : "Never";
+  const formattedDate = updatedAt
+  ? new Date(updatedAt).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    })
+  : "Never";
 
   return (
     <Link
-      to={`/ingredient-editor/${id}`}
+      to={`/collections/${id}`}
       className="block"
     >
       <div className="bg-white border border-[#E8E4DC] rounded-2xl p-4 flex items-center justify-between">
@@ -29,18 +29,20 @@ export default function CollectionCard({
           </div>
 
           <div>
+
             <h3 className="font-semibold text-[#23352A]">
               {name}
             </h3>
 
             <p className="text-xs text-gray-500">
-              {ingredients.length} ingredient
-              {ingredients.length !== 1 && "s"}
+              {(files ?? []).length} recipe
+              {(files ?? []).length !== 1 && "s"}
             </p>
 
             <p className="text-xs text-gray-500">
               Updated: {formattedDate}
-            </p>
+          </p>
+
           </div>
 
         </div>

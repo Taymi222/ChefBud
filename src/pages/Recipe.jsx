@@ -6,30 +6,35 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useCollections } from "../context/CollectionContext";
 
 import Button from "../components/UI/Buttons";
 import RecipeCard from "../components/Recipe/RecipeCard";
 import RecipeTags from "../components/Recipe/RecipeTags";
 
 export default function Recipe() {
-
   const navigate = useNavigate();
+  const { collectionId, fileId } = useParams();
+  const { getRecipeFile } = useCollections();
 
-  // Temporary hardcoded recipe.
-  // Later this comes from Claude.
+  const file = getRecipeFile(collectionId, fileId);
+
+  if (!file) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#FAF8F4]">
+        <p className="text-[#23352A] font-medium">Recipe file not found.</p>
+      </div>
+    );
+  }
+
+  // Fallback default recipe using current file's custom details and ingredients
   const recipe = {
-    title: "Classic French Toast",
-    time: "15 mins",
-    difficulty: "Easy",
-    description:
-      "A quick and delicious breakfast you'll love.",
-    ingredients: [
-      "Eggs",
-      "Bread",
-      "Milk",
-      "Butter",
-    ],
+    title: file.recipe?.title || `Classic ${file.title}`,
+    time: file.recipe?.cookingTime || "15 mins",
+    difficulty: file.recipe?.difficulty || "Easy",
+    description: file.recipe?.description || `A quick and delicious dish generated for your ${file.title}.`,
+    ingredients: file.ingredients.length > 0 ? file.ingredients : ["Eggs", "Bread", "Milk", "Butter"],
   };
 
   return (
@@ -43,10 +48,11 @@ export default function Recipe() {
           <ArrowLeft
             size={18}
             className="cursor-pointer"
+            onClick={() => navigate(`/recipe-editor/${collectionId}/${fileId}`)}
           />
 
-          <h1 className="font-playfair text-lg">
-            Breakfast
+          <h1 className="font-playfair text-lg text-[#23352A]">
+            {file.title}
           </h1>
 
           <MoreHorizontal size={18} />
@@ -107,6 +113,7 @@ export default function Recipe() {
           <Button
             variant="outline"
             className="text-xs"
+            onClick={() => navigate(`/recipe-editor/${collectionId}/${fileId}`)}
           >
             Edit Ingredients
           </Button>
