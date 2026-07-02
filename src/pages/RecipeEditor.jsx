@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  ArrowLeft,
-  MoreHorizontal,
-} from "lucide-react";
-
+import { ArrowLeft, MoreHorizontal } from "lucide-react";
 import Button from "../components/UI/Buttons";
 import IngredientInput from "../components/ingredients/IngredientInput";
 import IngredientItem from "../components/ingredients/IngredientItem";
@@ -120,9 +116,10 @@ export default function RecipeEditor() {
           {activeTab === "ingredients" ? (
             <>
               {/* Add Ingredient */}
-              <h3 className="text-xs font-medium text-[#23352A] mb-2">
-                Add Ingredients
+              <h3 className="text-xs italic font-medium text-[#23352A] mb-2">
+                Add Ingredients: Be as detailed as possible <br /> e.g. 1 cup of all purpose flour
               </h3>
+
 
               <IngredientInput
                 value={newIngredient}
@@ -197,7 +194,7 @@ export default function RecipeEditor() {
           {/* Buttons */}
           <div className="flex gap-3 mt-6">
 
-            <Button
+            {/* <Button
               variant="outline"
               onClick={handleSave}
               className="
@@ -207,15 +204,14 @@ export default function RecipeEditor() {
               "
             >
               Save
-            </Button>
+            </Button> */}
 
             <Button
-              onClick={handleGenerate}
-              className="
-                flex-1
-                bg-[#D89B29]
-                border-[#D89B29]
-              "
+              onClick={() =>
+                navigate(
+                  `/generating-recipe/${collectionId}/${fileId}`
+                )
+              }
             >
               Generate Recipe
             </Button>

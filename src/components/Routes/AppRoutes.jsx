@@ -5,9 +5,10 @@ import ForgotPassword from "../../pages/ForgotPassword";
 import Collections from "../../pages/Collections";
 import CollectionDetails from "../../pages/CollectionDetails";
 import RecipeEditor from "../../pages/RecipeEditor";
-import Recipe from "../../pages/Recipe";
+import RecipeSuggestions from "../../pages/RecipeSuggestions";
 import SavedRecipe from "../../pages/SavedRecipe";
 import Instructions from "../../pages/Instructions";
+import GeneratingRecipe from "../../pages/GeneratingRecipe";
 import MainLayout from "../../layouts/MainLayout";
 
 
@@ -22,7 +23,8 @@ export default function AppRoutes() {
       <Route path="/collections" element={<Collections />} />
       <Route path="/collections/:collectionId" element={<CollectionDetails />} />
       <Route path="/recipe-editor/:collectionId/:fileId" element={<RecipeEditor />} />
-      <Route path="/recipe/:collectionId/:fileId" element={<Recipe />} />
+      <Route path="/generating-recipe/:collectionId/:fileId" element={<GeneratingRecipe />} />
+      <Route path="/recipe-suggestions/:collectionId/:fileId" element={<RecipeSuggestions />} />
       <Route path="/saved-recipes" element={<SavedRecipe />} />
       <Route path="/instructions" element={<Instructions />} />
       </Route>
