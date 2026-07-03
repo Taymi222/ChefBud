@@ -45,8 +45,15 @@ export default function RecipeEditor() {
   };
 
   const handleGenerate = () => {
-    updateRecipeNotes(collectionId, fileId, notesText);
-    navigate(`/recipe/${collectionId}/${fileId}`);
+    updateRecipeNotes(
+      collectionId,
+      fileId,
+      notesText
+    );
+
+    navigate(
+      `/generating-recipe/${collectionId}/${fileId}`
+    );
   };
 
   return (
@@ -207,11 +214,7 @@ export default function RecipeEditor() {
             </Button> */}
 
             <Button
-              onClick={() =>
-                navigate(
-                  `/generating-recipe/${collectionId}/${fileId}`
-                )
-              }
+              onClick={handleGenerate}
             >
               Generate Recipe
             </Button>

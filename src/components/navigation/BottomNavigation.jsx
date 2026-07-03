@@ -59,6 +59,7 @@ export default function BottomNavigation() {
       >
         <Bookmark size={20} />
         <span className="mt-1">
+
           Saved Recipes
         </span>
       </NavLink>
