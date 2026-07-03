@@ -7,30 +7,69 @@ import {
   Users,
 } from "lucide-react";
 
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+
+import { useCollections } from "../context/CollectionContext";
 
 import Button from "../components/UI/Buttons";
 
 import recipeImage from "../assets/images/onboarding.png";
 
 export default function Instructions() {
+
   const navigate = useNavigate();
 
+  const { collectionId, fileId } =
+    useParams();
+
   const { state } = useLocation();
-  
 
-  const recipe = state?.recipe;
-  console.log(recipe)
+  const {
+    getRecipeFile,
+    saveRecipe,
+  } = useCollections();
 
-  if (!recipe) {
+  const file = getRecipeFile(
+    collectionId,
+    fileId
+  );
+
+  const recipe =
+    state?.recipe ||
+    file?.recipe;
+
+  if (
+    !recipe ||
+    !recipe.title
+  ) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FAF8F4]">
+      <div className="min-h-screen bg-[#FAF8F4] flex items-center justify-center">
+
         <p className="text-gray-500">
-          No recipe selected.
+
+          Recipe not found.
+
         </p>
+
       </div>
     );
   }
+
+  const handleSave = () => {
+
+    saveRecipe(
+      collectionId,
+      fileId,
+      recipe
+    );
+
+    navigate("/saved-recipes");
+
+  };
 
   return (
     <div className="min-h-screen bg-[#FAF8F4]">
@@ -48,7 +87,9 @@ export default function Instructions() {
           />
 
           <h1 className="font-playfair text-lg text-[#23352A]">
+
             {recipe.title}
+
           </h1>
 
           <div className="flex items-center gap-3">
@@ -104,7 +145,9 @@ export default function Instructions() {
               </div>
 
               <p className="text-xs text-[#23352A] mt-3 leading-5">
+
                 {recipe.description}
+
               </p>
 
             </div>
@@ -118,48 +161,64 @@ export default function Instructions() {
         <div className="px-4 mt-6">
 
           <h2 className="font-semibold text-[#23352A] mb-3">
+
             Ingredients
+
           </h2>
 
           <ul className="space-y-2">
 
-            {recipe.ingredients.map((ingredient, index) => (
-
-              <li
-                key={index}
-                className="text-sm text-gray-600"
-              >
-                • {ingredient}
-              </li>
-
-            ))}
-
-          </ul>
-
-        </div>
-
-        {/* Optional */}
-
-        {recipe.optionalIngredients.length > 0 && (
-
-          <div className="px-4 mt-6">
-
-            <h2 className="font-semibold text-[#23352A] mb-3">
-              Optional Ingredients
-            </h2>
-
-            <ul className="space-y-2">
-
-              {recipe.optionalIngredients.map((ingredient, index) => (
+            {recipe.ingredients.map(
+              (ingredient, index) => (
 
                 <li
                   key={index}
                   className="text-sm text-gray-600"
                 >
+
                   • {ingredient}
+
                 </li>
 
-              ))}
+              )
+            )}
+
+          </ul>
+
+        </div>
+
+        {/* Optional Ingredients */}
+
+        {recipe.optionalIngredients?.length >
+          0 && (
+
+          <div className="px-4 mt-6">
+
+            <h2 className="font-semibold text-[#23352A] mb-3">
+
+              Optional Ingredients
+
+            </h2>
+
+            <ul className="space-y-2">
+
+              {recipe.optionalIngredients.map(
+                (
+                  ingredient,
+                  index
+                ) => (
+
+                  <li
+                    key={index}
+                    className="text-sm text-gray-600"
+                  >
+
+                    • {ingredient}
+
+                  </li>
+
+                )
+              )}
 
             </ul>
 
@@ -172,29 +231,37 @@ export default function Instructions() {
         <div className="px-4 mt-6">
 
           <h2 className="font-semibold text-[#23352A] mb-3">
+
             Instructions
+
           </h2>
 
           <ol className="space-y-4">
 
-            {recipe.instructions.map((step, index) => (
+            {recipe.instructions.map(
+              (step, index) => (
 
-              <li
-                key={index}
-                className="flex gap-3"
-              >
+                <li
+                  key={index}
+                  className="flex gap-3"
+                >
 
-                <span className="font-semibold text-[#5C7C5D]">
-                  {index + 1}.
-                </span>
+                  <span className="font-semibold text-[#5C7C5D]">
 
-                <p className="text-sm leading-6 text-gray-600">
-                  {step}
-                </p>
+                    {index + 1}.
 
-              </li>
+                  </span>
 
-            ))}
+                  <p className="text-sm leading-6 text-gray-600">
+
+                    {step}
+
+                  </p>
+
+                </li>
+
+              )
+            )}
 
           </ol>
 
@@ -205,21 +272,27 @@ export default function Instructions() {
         <div className="px-4 mt-8">
 
           <h2 className="font-semibold text-[#23352A] mb-3">
+
             Tips
+
           </h2>
 
           <ul className="space-y-2">
 
-            {recipe.tips.map((tip, index) => (
+            {recipe.tips.map(
+              (tip, index) => (
 
-              <li
-                key={index}
-                className="text-sm text-gray-600"
-              >
-                💡 {tip}
-              </li>
+                <li
+                  key={index}
+                  className="text-sm text-gray-600"
+                >
 
-            ))}
+                  💡 {tip}
+
+                </li>
+
+              )
+            )}
 
           </ul>
 
@@ -232,15 +305,22 @@ export default function Instructions() {
           <Button
             variant="outline"
             className="flex-1 border-[#5C7C5D] text-[#5C7C5D]"
-            onClick={() => navigate(-1)}
+            onClick={() =>
+              navigate(-1)
+            }
           >
+
             Back
+
           </Button>
 
           <Button
+            onClick={handleSave}
             className="flex-1 bg-[#5C7C5D]"
           >
+
             Save Recipe
+
           </Button>
 
         </div>

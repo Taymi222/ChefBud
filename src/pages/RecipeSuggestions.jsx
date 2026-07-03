@@ -67,9 +67,12 @@ export default function RecipeSuggestions() {
     recipe
   ) => {
 
-    navigate("/instructions", {
-      state: { recipe },
-    });
+    navigate(
+  `/instructions/${collectionId}/${fileId}`,
+  {
+    state: { recipe },
+  }
+);
 
   };
 

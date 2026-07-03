@@ -26,7 +26,7 @@ export default function AppRoutes() {
       <Route path="/generating-recipe/:collectionId/:fileId" element={<GeneratingRecipe />} />
       <Route path="/recipe-suggestions/:collectionId/:fileId" element={<RecipeSuggestions />} />
       <Route path="/saved-recipes" element={<SavedRecipe />} />
-      <Route path="/instructions" element={<Instructions />} />
+      <Route path="/instructions/:collectionId/:fileId" element={<Instructions />} />
       </Route>
     </Routes>
   );

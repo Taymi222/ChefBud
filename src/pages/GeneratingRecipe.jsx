@@ -38,23 +38,27 @@ export default function GeneratingRecipe() {
       return;
     }
 
+    // Loading animation timeline (6 seconds)
+
     const timer1 = setTimeout(
       () => setStep(1),
-      800
+      3000
     );
 
     const timer2 = setTimeout(
       () => setStep(2),
-      1800
+      6000
     );
 
     const timer3 = setTimeout(
       () => setStep(3),
-      2800
+      9000
     );
 
+    // Never leave before 6 seconds
+
     const minimumDelay = new Promise((resolve) =>
-      setTimeout(resolve, 3800)
+      setTimeout(resolve, 10000)
     );
 
     async function generate() {
@@ -118,15 +122,11 @@ export default function GeneratingRecipe() {
         </div>
 
         <h2 className="font-playfair text-2xl text-[#23352A]">
-
           Something went wrong
-
         </h2>
 
         <p className="mt-2 text-sm text-gray-500">
-
           {error}
-
         </p>
 
         <button
@@ -159,16 +159,12 @@ export default function GeneratingRecipe() {
         </div>
 
         <h1 className="mt-8 font-playfair text-3xl text-[#23352A]">
-
           Cooking up some ideas...
-
         </h1>
 
         <p className="mt-3 text-sm text-gray-500 leading-6">
-
           We're creating delicious recipes
           from your available ingredients.
-
         </p>
 
         <div className="mt-10 space-y-5 text-left">
@@ -185,7 +181,7 @@ export default function GeneratingRecipe() {
 
           <ProgressItem
             complete={step >= 3}
-            text="Preparing recommendations..."
+            text="Finalizing your recipes..."
           />
 
         </div>
@@ -242,9 +238,7 @@ function ProgressItem({
           }
         `}
       >
-
         {text}
-
       </p>
 
     </div>

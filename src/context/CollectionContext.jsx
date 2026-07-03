@@ -290,6 +290,54 @@ export function CollectionProvider({ children }) {
     );
   };
 
+  const saveRecipe = (
+  collectionId,
+  fileId,
+  recipe
+) => {
+
+  setCollections((prev) =>
+    prev.map((collection) => {
+
+      if (collection.id !== collectionId)
+        return collection;
+
+      return {
+
+        ...collection,
+
+        files: collection.files.map((file) => {
+
+          if (file.id !== fileId)
+            return file;
+
+          return {
+
+            ...file,
+
+            title: recipe.title,
+
+            recipe,
+
+            saved: true,
+
+            updatedAt:
+              new Date().toISOString(),
+
+          };
+
+        }),
+
+        updatedAt:
+          new Date().toISOString(),
+
+      };
+
+    })
+  );
+
+};
+
   return (
     <CollectionContext.Provider
       value={{
@@ -307,6 +355,7 @@ export function CollectionProvider({ children }) {
         addIngredient,
         deleteIngredient,
         updateRecipeNotes,
+        saveRecipe
       }}
     >
       {children}
