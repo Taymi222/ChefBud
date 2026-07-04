@@ -54,7 +54,7 @@ export default function Login() {
 
           <Link
             to="/forgot-password"
-            className="text-[#D89B29] text-sm"
+            className="text-[#D89B29] text-sm hover:underline"
           >
             Forgot password?
           </Link>

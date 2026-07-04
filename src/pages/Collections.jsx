@@ -5,7 +5,7 @@ import CollectionModal from "../components/collections/CollectionModal";
 import { useCollections } from "../context/CollectionContext";
 
 export default function Collections() {
-  const {collections,createCollection,renameCollection,} = useCollections();
+  const {collections,createCollection,renameCollection, deleteCollection} = useCollections();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCollection, setEditingCollection] = useState(null);
 

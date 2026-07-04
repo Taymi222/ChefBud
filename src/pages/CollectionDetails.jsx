@@ -44,10 +44,10 @@ export default function CollectionDetails() {
             {collection.name}
           </h1>
 
-          <button onClick={() => setIsModalOpen(true)}>
+          <button 
+          onClick={() => setIsModalOpen(true)}>
             <Plus size={22} />
           </button>
-
         </div>
 
         {/* Files */}

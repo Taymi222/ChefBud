@@ -9,7 +9,6 @@ export default function Onboarding() {
 
 <div className="max-w-sm mx-auto min-h-screen flex flex-col">
 
-    {/* Logo */}
     <div className="flex justify-center">
       <img
         src={logo}
@@ -24,7 +23,7 @@ export default function Onboarding() {
       </h1>
     </div>
 
-    {/* Illustration */}
+    {/* My Illustration */}
     <div className="flex justify-center mt-2">
       <img
         src={foodImage}
@@ -44,12 +43,10 @@ export default function Onboarding() {
       </h2>
     </div>
 
-    {/* Description */}
     <p className="text-center text-[#5F6470] text-base px-4 mt-5">
       Turn the ingredients you already have into delicious meal ideas.
     </p>
 
-    {/* Push button to bottom */}
     <div className="mt-5 pb-4">
       <Button className="w-full" 
       onClick={() => navigate("/login")}>

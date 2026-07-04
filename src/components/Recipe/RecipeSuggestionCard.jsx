@@ -42,7 +42,7 @@ export default function RecipeSuggestionCard({
             {recipe.description}
           </p>
 
-          {/* Why Suggested */}
+          {/* The Why's */}
 
           <div className="mt-4 rounded-xl bg-[#F4F1E8] px-3 py-2">
 

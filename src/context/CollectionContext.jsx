@@ -1,9 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import {createContext, useContext, useEffect, useState,  } from "react";
 
 const CollectionContext = createContext();
 
@@ -56,9 +51,7 @@ export function CollectionProvider({ children }) {
     );
   }, [collections]);
 
-  // ==========================
   // COLLECTIONS
-  // ==========================
 
   const getCollection = (collectionId) => {
     return collections.find(
@@ -112,9 +105,8 @@ export function CollectionProvider({ children }) {
     );
   };
 
-  // ==========================
+
   // RECIPE FILES
-  // ==========================
 
   const createRecipeFile = (
     collectionId,

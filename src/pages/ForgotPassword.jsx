@@ -12,7 +12,7 @@ export default function ForgotPassword() {
         {/* Back */}
         <Link
           to="/login"
-          className="inline-flex"
+          className="inline-flex "
         >
           <ArrowLeft
             size={22}
@@ -29,7 +29,6 @@ export default function ForgotPassword() {
           />
         </div>
 
-        {/* Heading */}
         <div className="text-center mt-4">
           <h1 className="font-playfair text-[38px] text-[#23352A]">
             Reset Password
@@ -56,8 +55,7 @@ export default function ForgotPassword() {
           </Button>
         </div>
 
-        {/* Back To Login */}
-        <div className="text-center mt-10">
+        <div className="text-center mt-10 hover:underline">
           <Link
             to="/login"
             className="text-[#D89B29] text-sm"

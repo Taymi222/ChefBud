@@ -117,9 +117,6 @@ The JSON must look EXACTLY like this:
 Return ONLY the JSON object.
 `;
 
-  // console.log("Ingredients:", ingredients);
-  // console.log("Gemini Key:", API_KEY);
-
   const response = await fetch(
     `${API_URL}?key=${API_KEY}`,
     {

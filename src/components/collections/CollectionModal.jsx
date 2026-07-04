@@ -16,7 +16,7 @@ export default function CollectionModal({
       setName(initialValue);
     }
   }, [isOpen, initialValue]);
-
+git 
   if (!isOpen) return null;
 
   const handleSubmit = (e) => {

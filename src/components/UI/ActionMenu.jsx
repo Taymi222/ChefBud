@@ -17,7 +17,7 @@ export default function ActionMenu({ actions }) {
       >
         <MoreVertical
           size={18}
-          className="text-gray-500"
+          className="text-gray-500 relative rounded-full hover:bg-slate-400/20 transition-colors duration-150 overflow-hidden"
         />
       </button>
 
