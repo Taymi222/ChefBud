@@ -8,3 +8,19 @@
   --font-sans: 'Outfit', sans-serif;
   --font-inter: 'Inter', sans-serif;
 }
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.animate-shimmer {
+  animation: shimmer 2.3 infinite linear;
+  background: linear-gradient(
+    90deg,
+    #E8E4DC 25%,
+    #F0EDE6 50%,
+    #E8E4DC 75%
+  );
+  background-size: 200% 100%;
+}

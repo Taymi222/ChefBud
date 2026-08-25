@@ -31,3 +31,9 @@ export default function AppRoutes() {
     </Routes>
   );
 }
+
+import SharedRecipe from "../../pages/SharedRecipe";
+
+// outside the MainLayout routes — no bottom nav on shared page
+<Route path="/shared/:encoded" element={<SharedRecipe />} />
+
